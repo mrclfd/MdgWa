@@ -46,6 +46,7 @@ public class XAntiRevoke extends XHookBase {
     }
 
     private void isMRevoked(Object objMessage, TextView dateTextView, String antirevokeType) {
+        if (dateTextView == null) return;
         var fieldMessageDetails = XposedHelpers.getObjectField(objMessage, fieldMessageKey);
         var messageKey = (String) XposedHelpers.getObjectField(fieldMessageDetails, "A01");
         var stripJID = stripJID(getJidAuthor(objMessage));

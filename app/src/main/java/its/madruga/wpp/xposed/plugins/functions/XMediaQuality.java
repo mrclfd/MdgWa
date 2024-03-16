@@ -11,6 +11,8 @@ import static its.madruga.wpp.ClassesReference.MediaQuality.vParam2;
 import static its.madruga.wpp.ClassesReference.MediaQuality.vmethod;
 import static its.madruga.wpp.ClassesReference.MediaQuality.vmethod2;
 
+import android.graphics.Bitmap;
+import android.graphics.RecordingCanvas;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -61,26 +63,22 @@ public class XMediaQuality extends XHookBase {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     int p1 = (int) param.args[2];
-                    if (checkMedia(p1, 1)) {
-                        param.setResult(1000);
+                    int[] props = {1573, 1575, 1578, 1574, 1576, 1577};
+                    int max = 10000;
+                    int min = 1000;
+                    for (int index = 0; index < props.length; index++) {
+                        if (props[index] == p1){
+                            if (index <= 2) {
+                                param.setResult(min);
+                            } else {
+                                param.setResult(max);
+                            }
+                        }
                     }
-                    if (checkMedia(p1, 2)) {
-                        param.setResult(10000);
-                    }
-                    if (checkMedia(p1, 4)) {
-                        param.setResult(100000);
-                    }
-                    super.beforeHookedMethod(param);
                 }
             });
+            XposedHelpers.findAndHookMethod(RecordingCanvas.class, "throwIfCannotDraw", Bitmap.class, XC_MethodReplacement.DO_NOTHING);
         }
     }
-
-    private boolean checkMedia(int i, int i2) {
-        int[] validValues = {1578, 1575, 1581, 1576, 1574, 1580, 596, 4155, 3659, 3660, 3658, 3306, 3656, 3185, 595, 3655, 3755, 3756, 3757, 3758, 3657};
-        int index = (i2 - 1) * 3;
-        return index >= 0 && index < validValues.length && validValues[index] == i;
-    }
-
 
 }

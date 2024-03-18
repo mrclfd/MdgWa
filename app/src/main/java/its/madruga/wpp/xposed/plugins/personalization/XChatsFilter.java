@@ -93,7 +93,7 @@ public class XChatsFilter extends XHookBase {
                     if (menu != null) {
                         var menuItem = (MenuItem) callMethod(menu, "findItem", GROUPS);
                         if (menuItem != null) {
-                            menuItem.setIcon(0x7f0803ce);
+                            menuItem.setIcon(0x7f0803df);
                         }
                     }
                 }
